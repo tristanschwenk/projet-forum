@@ -28,9 +28,9 @@ type User struct {
 	//[ 4] password                                       varchar(255)         null: false  primary: false  isArray: false  auto: false  col: varchar         len: 255     default: []
 	Password string `gorm:"column:password;type:varchar;size:255;"`
 	//[ 5] lastLoginAt                                    timestamp            null: true   primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
-	LastLoginAt int `gorm:"column:lastLoginAt;type:timestamp;"`
+	LastLoginAt int `gorm:"column:lastLoginAt;type:integer;"`
 	//[ 6] RegisteredAt                                    timestamp            null: false  primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
-	RegisteredAt int `gorm:"column:registeredAt;type:timestamp;"`
+	RegisteredAt int `gorm:"column:registeredAt;type:integer;"`
 	//[ 7] refreshToken                                   varchar(1000)        null: true   primary: false  isArray: false  auto: false  col: varchar         len: 1000    default: []
 	RefreshToken string `gorm:"column:refreshToken;type:varchar;size:1000;"`
 }

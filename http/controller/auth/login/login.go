@@ -1,8 +1,11 @@
 package login
 
 import (
+	"fmt"
 	"net/http"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 
 	"goyave.dev/goyave/v3"
 	"goyave.dev/goyave/v3/database"
@@ -36,22 +39,34 @@ type LoginRequestStruct struct {
 
 func Login(response *goyave.Response, request *goyave.Request) {
 
+	//Get Send Data
+
 	data := LoginRequestStruct{}
 
 	if err := request.ToStruct(&data); err != nil {
 		panic(err)
 	}
 
+	//Check if there is a user with request email
 	user := model.User{}
 
 	db := database.Conn()
 
-	if result := db.Where("email = ? AND password = ?", data.Email, data.Password).Find(&user); result.Error != nil {
+	if result := db.Where("email = ?", data.Email).Find(&user); result.Error != nil {
 		panic(result.Error)
 	}
 
-	user.LastLoginAt = int(time.Now().Unix())
-	db.Save(&user)
+	//Compare User Password with request Password
+
+	cmp := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data.Password))
+	fmt.Println(cmp)
+
+	//If User is not empty (is a true user)
+
+	if user.DisplayName != "" {
+		user.LastLoginAt = int(time.Now().Unix())
+		db.Save(&user)
+	}
 
 	response.JSON(http.StatusOK, user)
 }

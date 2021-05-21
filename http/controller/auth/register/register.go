@@ -1,6 +1,8 @@
 package register
 
 import (
+	"golang.org/x/crypto/bcrypt"
+
 	"net/http"
 	"time"
 
@@ -44,11 +46,16 @@ func Register(response *goyave.Response, request *goyave.Request) {
 		panic(err)
 	}
 
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
+	if err != nil {
+		panic(err)
+	}
+
 	user := model.User{
 		DisplayName:  data.DisplayName,
 		UserName:     data.UserName,
 		Email:        data.Email,
-		Password:     data.Password,
+		Password:     string(hashedPassword),
 		RegisteredAt: int(time.Now().Unix()),
 	}
 	db := database.Conn()

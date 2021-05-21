@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"goyave.dev/template/http/route"
-	_ "goyave.dev/template/http/validation"
+	"ezyo/forum/http/route"
+	_ "ezyo/forum/http/validation"
 
 	"goyave.dev/goyave/v3"
 	"goyave.dev/goyave/v3/config"

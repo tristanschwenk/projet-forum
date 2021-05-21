@@ -1,4 +1,4 @@
-module goyave.dev/template
+module ezyo/forum
 
 go 1.13
 

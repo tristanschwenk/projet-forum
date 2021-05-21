@@ -1,7 +1,7 @@
 package seeder
 
 import (
-	"goyave.dev/template/database/model"
+	"ezyo/forum/database/model"
 
 	"github.com/bxcodec/faker/v3"
 	"goyave.dev/goyave/v3/database"

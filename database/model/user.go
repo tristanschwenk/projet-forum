@@ -1,9 +1,6 @@
 package model
 
 import (
-	"database/sql"
-	"time"
-
 	"goyave.dev/goyave/v3/database"
 )
 
@@ -31,11 +28,11 @@ type User struct {
 	//[ 4] password                                       varchar(255)         null: false  primary: false  isArray: false  auto: false  col: varchar         len: 255     default: []
 	Password string `gorm:"column:password;type:varchar;size:255;"`
 	//[ 5] lastLoginAt                                    timestamp            null: true   primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
-	LastLoginAt time.Time `gorm:"column:lastLoginAt;type:timestamp;"`
-	//[ 6] registredAt                                    timestamp            null: false  primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
-	RegistredAt time.Time `gorm:"column:registredAt;type:timestamp;"`
+	LastLoginAt int `gorm:"column:lastLoginAt;type:timestamp;"`
+	//[ 6] RegisteredAt                                    timestamp            null: false  primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
+	RegisteredAt int `gorm:"column:registeredAt;type:timestamp;"`
 	//[ 7] refreshToken                                   varchar(1000)        null: true   primary: false  isArray: false  auto: false  col: varchar         len: 1000    default: []
-	RefreshToken sql.NullString `gorm:"column:refreshToken;type:varchar;size:1000;"`
+	RefreshToken string `gorm:"column:refreshToken;type:varchar;size:1000;"`
 }
 
 // You may need to test features interacting with your database.

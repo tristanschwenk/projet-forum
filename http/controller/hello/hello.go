@@ -1,9 +1,13 @@
 package hello
 
 import (
+	"fmt"
 	"net/http"
 
+	"ezyo/forum/database/model"
+
 	"goyave.dev/goyave/v3"
+	"goyave.dev/goyave/v3/database"
 )
 
 // Controllers are files containing a collection of Handlers related to a specific feature.
@@ -24,6 +28,13 @@ import (
 // query params and route parameters.
 // https://goyave.dev/guide/basics/requests.html
 func SayHi(response *goyave.Response, request *goyave.Request) {
+	user := model.User{}
+	db := database.Conn()
+
+	db.First(&user)
+
+	fmt.Println(user)
+
 	response.String(http.StatusOK, "Hi!")
 }
 

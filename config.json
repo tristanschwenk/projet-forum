@@ -10,7 +10,7 @@
         "maintenance": false,
         "protocol": "http",
         "domain": "",
-        "port": 3000,
+        "port": 8080,
         "httpsPort": 3001,
         "timeout": 10,
         "maxUploadSize": 10,
@@ -20,16 +20,14 @@
         }
     },
     "database": {
-        "connection": "sqlite",
-        "host": "127.0.0.1",
-        "port": 3306,
-        "name": "goyave",
+        "connection": "sqlite3",
+        "name": "db",
         "username": "root",
         "password": "root",
-        "options": "charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true&loc=Local",
+        "options": "",
         "maxOpenConnections": 20,
         "maxIdleConnections": 20,
         "maxLifetime": 300,
-        "autoMigrate": false
+        "autoMigrate": true
     }
 }

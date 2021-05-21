@@ -1,8 +1,9 @@
 package model
 
 import (
-	"github.com/bxcodec/faker/v3"
-	"gorm.io/gorm"
+	"database/sql"
+	"time"
+
 	"goyave.dev/goyave/v3/database"
 )
 
@@ -18,11 +19,23 @@ func init() {
 	database.RegisterModel(&User{})
 }
 
-// User represents a user.
 type User struct {
-	gorm.Model
-	Name  string `gorm:"type:char(100)"`
-	Email string `gorm:"type:char(100);uniqueIndex"`
+	//[ 0] id                                             integer              null: false  primary: true   isArray: false  auto: true   col: integer         len: -1      default: []
+	ID int32 `gorm:"primary_key;AUTO_INCREMENT;column:id;type:integer;"`
+	//[ 1] email                                          varchar              null: false  primary: false  isArray: false  auto: false  col: varchar         len: -1      default: []
+	Email string `gorm:"column:email;type:varchar;"`
+	//[ 2] displayName                                    varchar              null: false  primary: false  isArray: false  auto: false  col: varchar         len: -1      default: []
+	DisplayName string `gorm:"column:displayName;type:varchar;"`
+	//[ 3] userName                                       varchar(30)          null: false  primary: false  isArray: false  auto: false  col: varchar         len: 30      default: []
+	UserName string `gorm:"column:userName;type:varchar;size:30;"`
+	//[ 4] password                                       varchar(255)         null: false  primary: false  isArray: false  auto: false  col: varchar         len: 255     default: []
+	Password string `gorm:"column:password;type:varchar;size:255;"`
+	//[ 5] lastLoginAt                                    timestamp            null: true   primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
+	LastLoginAt time.Time `gorm:"column:lastLoginAt;type:timestamp;"`
+	//[ 6] registredAt                                    timestamp            null: false  primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
+	RegistredAt time.Time `gorm:"column:registredAt;type:timestamp;"`
+	//[ 7] refreshToken                                   varchar(1000)        null: true   primary: false  isArray: false  auto: false  col: varchar         len: 1000    default: []
+	RefreshToken sql.NullString `gorm:"column:refreshToken;type:varchar;size:1000;"`
 }
 
 // You may need to test features interacting with your database.
@@ -37,11 +50,12 @@ type User struct {
 // Generate users using the following:
 //  database.NewFactory(model.UserGenerator).Generate(5)
 func UserGenerator() interface{} {
+
 	user := &User{}
-	user.Name = faker.Name()
+	/* user.Name = faker.Name()
 
 	faker.SetGenerateUniqueValues(true)
 	user.Email = faker.Email()
-	faker.SetGenerateUniqueValues(false)
+	faker.SetGenerateUniqueValues(false) */
 	return user
 }

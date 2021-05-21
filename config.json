@@ -21,9 +21,7 @@
     },
     "database": {
         "connection": "sqlite3",
-        "name": "db",
-        "username": "root",
-        "password": "root",
+        "name": "db.sqlite",
         "options": "",
         "maxOpenConnections": 20,
         "maxIdleConnections": 20,

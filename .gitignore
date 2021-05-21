@@ -6,6 +6,7 @@
 
 *.out
 # config.json
+.env
 
 .idea/
 .vscode/

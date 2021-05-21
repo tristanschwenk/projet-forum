@@ -1,13 +1,9 @@
 package hello
 
 import (
-	"fmt"
 	"net/http"
 
-	"ezyo/forum/database/model"
-
 	"goyave.dev/goyave/v3"
-	"goyave.dev/goyave/v3/database"
 )
 
 // Controllers are files containing a collection of Handlers related to a specific feature.
@@ -27,19 +23,7 @@ import (
 // The Request object contains all the information about the incoming request, including it's parsed body,
 // query params and route parameters.
 // https://goyave.dev/guide/basics/requests.html
+
 func SayHi(response *goyave.Response, request *goyave.Request) {
-	user := model.User{}
-	db := database.Conn()
-
-	db.First(&user)
-
-	fmt.Println(user)
-
 	response.String(http.StatusOK, "Hi!")
-}
-
-// Echo is a controller handler writing the input field "text" as a response.
-// This route is validated. See "http/request/echorequest/echo.go" for more details.
-func Echo(response *goyave.Response, request *goyave.Request) {
-	response.String(http.StatusOK, request.String("text"))
 }

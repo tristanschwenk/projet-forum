@@ -21,7 +21,7 @@
     },
     "database": {
         "connection": "sqlite3",
-        "name": "db.sqlite",
+        "name": "database/dev.db",
         "options": "",
         "maxOpenConnections": 20,
         "maxIdleConnections": 20,

@@ -17,7 +17,7 @@ func main() {
 
 	goyave.Logger.Println("Starting...")
 	goyave.RegisterStartupHook(func() {
-		goyave.Logger.Printf("API Started. Listening at %s://%s:%d\n", config.Get("server.protocol"), config.Get("server.host"), config.Get("server.port"))
+		goyave.Logger.Printf("API Started. Listening at %s", goyave.BaseURL())
 	})
 
 	if err := goyave.Start(route.Register); err != nil {

@@ -1,9 +1,7 @@
 package route
 
 import (
-	"ezyo/forum/http/controller/auth/login"
-	"ezyo/forum/http/controller/auth/register"
-	"ezyo/forum/http/controller/hello"
+	"ezyo/forum/http/controller/auth"
 
 	"goyave.dev/goyave/v3"
 	"goyave.dev/goyave/v3/cors"
@@ -25,11 +23,7 @@ func Register(router *goyave.Router) {
 	router.CORS(cors.Default())
 
 	// Auth Routes
-	router.Post("/register", register.Register).Validate(register.RegisterRequest)
-	router.Post("/login", login.Login).Validate(login.LoginRequest)
-
-	// Basic Route
-	router.Get("/hello", hello.SayHi)
+	auth.Register(router)
 
 	// Route with validation
 }

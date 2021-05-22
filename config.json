@@ -31,9 +31,9 @@
     "auth": {
         "jwt": {
             "expiry": 900,
-            "secret": "jwt-secret",
+            "secret": "${ACCESS_TOKEN_SECRET}",
             "refreshExpiry": 86400,
-            "refreshSecret": "refresh-secret"
+            "refreshSecret": "${REFRESH_TOKEN_SECRET}"
         }
     }
 }

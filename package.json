@@ -3,7 +3,7 @@
   "description": "",
   "version": "0.0.1",
   "scripts": {
-    "start": "go run main.go",
+    "start": "godotenv -f \"./.env\" go run main.go",
     "watch": "nodemon --exec \"npm run start\" -e \"go\" --signal SIGTERM"
   }
 }

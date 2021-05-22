@@ -17,22 +17,14 @@ func init() {
 }
 
 type User struct {
-	//[ 0] id                                             integer              null: false  primary: true   isArray: false  auto: true   col: integer         len: -1      default: []
-	ID int32 `gorm:"primary_key;AUTO_INCREMENT;column:id;type:integer;"`
-	//[ 1] email                                          varchar              null: false  primary: false  isArray: false  auto: false  col: varchar         len: -1      default: []
-	Email string `gorm:"column:email;type:varchar;"`
-	//[ 2] displayName                                    varchar              null: false  primary: false  isArray: false  auto: false  col: varchar         len: -1      default: []
-	DisplayName string `gorm:"column:displayName;type:varchar;"`
-	//[ 3] userName                                       varchar(30)          null: false  primary: false  isArray: false  auto: false  col: varchar         len: 30      default: []
-	UserName string `gorm:"column:userName;type:varchar;size:30;"`
-	//[ 4] password                                       varchar(255)         null: false  primary: false  isArray: false  auto: false  col: varchar         len: 255     default: []
-	Password string `gorm:"column:password;type:varchar;size:255;"`
-	//[ 5] lastLoginAt                                    timestamp            null: true   primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
-	LastLoginAt int `gorm:"column:lastLoginAt;type:integer;"`
-	//[ 6] RegisteredAt                                    timestamp            null: false  primary: false  isArray: false  auto: false  col: timestamp       len: -1      default: []
-	RegisteredAt int `gorm:"column:registeredAt;type:integer;"`
-	//[ 7] refreshToken                                   varchar(1000)        null: true   primary: false  isArray: false  auto: false  col: varchar         len: 1000    default: []
-	RefreshToken string `gorm:"column:refreshToken;type:varchar;size:1000;"`
+	ID           int32  `gorm:"primary_key;AUTO_INCREMENT;column:id;type:integer;" json:"id"`
+	Email        string `gorm:"column:email;type:varchar;" json:"email"`
+	DisplayName  string `gorm:"column:displayName;type:varchar;" json:"displayName"`
+	UserName     string `gorm:"column:userName;type:varchar;size:30;" json:"userName"`
+	Password     string `gorm:"column:password;type:varchar;size:255;" json:"-"`
+	LastLoginAt  int    `gorm:"column:lastLoginAt;type:integer;" json:"lastLoginAt"`
+	RegisteredAt int    `gorm:"column:registeredAt;type:integer;" json:"registeredAt"`
+	RefreshToken string `gorm:"column:refreshToken;type:varchar;size:1000;" json:"-"`
 }
 
 // You may need to test features interacting with your database.

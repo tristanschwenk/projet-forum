@@ -69,7 +69,6 @@ func generateRefreshToken(user model.User) (string, error) {
 func Login(response *goyave.Response, request *goyave.Request) {
 
 	// Retreive body as a struct
-
 	data := LoginRequestStruct{}
 
 	if err := request.ToStruct(&data); err != nil {
@@ -94,7 +93,7 @@ func Login(response *goyave.Response, request *goyave.Request) {
 		accessToken, err := generateAccessToken(user)
 
 		if err != nil {
-			panic(err)
+			goyave.Logger.Fatal(err)
 		}
 
 		refreshToken, err := generateRefreshToken(user)

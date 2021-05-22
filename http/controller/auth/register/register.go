@@ -10,7 +10,6 @@ import (
 	"goyave.dev/goyave/v3/database"
 
 	"ezyo/forum/database/model"
-	_ "ezyo/forum/database/model"
 )
 
 // Controllers are files containing a collection of Handlers related to a specific feature.

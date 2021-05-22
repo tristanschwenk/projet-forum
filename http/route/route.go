@@ -22,8 +22,11 @@ func Register(router *goyave.Router) {
 	// Learn more about CORS options here: https://goyave.dev/guide/advanced/cors.html
 	router.CORS(cors.Default())
 
+	// Authentification
+	// authenticator := goyaveAuth.Middleware(&model.User{}, &goyaveAuth.JWTAuthenticator{Optional: true})
+	// router.Middleware(authenticator)
+
 	// Auth Routes
 	auth.Register(router)
 
-	// Route with validation
 }

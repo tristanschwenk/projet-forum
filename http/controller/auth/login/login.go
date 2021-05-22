@@ -1,17 +1,20 @@
 package login
 
 import (
-	"fmt"
+	"errors"
 	"net/http"
 	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
-
+	"gorm.io/gorm"
 	"goyave.dev/goyave/v3"
+	goyaveAuth "goyave.dev/goyave/v3/auth"
+	"goyave.dev/goyave/v3/config"
 	"goyave.dev/goyave/v3/database"
+	"goyave.dev/goyave/v3/lang"
 
 	"ezyo/forum/database/model"
-	_ "ezyo/forum/database/model"
 )
 
 // Controllers are files containing a collection of Handlers related to a specific feature.
@@ -37,9 +40,35 @@ type LoginRequestStruct struct {
 	Password string
 }
 
+type LoginResponseStruct struct {
+	model.User
+	AccessToken  string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+}
+
+func generateAccessToken(user model.User) (string, error) {
+	return goyaveAuth.GenerateTokenWithClaims(jwt.MapClaims{
+		"email": user.Email,
+		"id":    user.ID,
+	}, jwt.SigningMethodHS256)
+}
+
+func generateRefreshToken(user model.User) (string, error) {
+	refreshExpiry := time.Duration(config.GetInt("auth.jwt.refreshExpiry")) * time.Second
+	refreshSecret := []byte(config.GetString("auth.jwt.refreshSecret"))
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":  user.ID,
+		"nbf": time.Now().Unix(),
+		"exp": time.Now().Add(refreshExpiry).Unix(),
+	})
+
+	return token.SignedString(refreshSecret)
+}
+
 func Login(response *goyave.Response, request *goyave.Request) {
 
-	//Get Send Data
+	// Retreive body as a struct
 
 	data := LoginRequestStruct{}
 
@@ -47,26 +76,46 @@ func Login(response *goyave.Response, request *goyave.Request) {
 		panic(err)
 	}
 
-	//Check if there is a user with request email
 	user := model.User{}
 
 	db := database.Conn()
 
-	if result := db.Where("email = ?", data.Email).Find(&user); result.Error != nil {
+	// Search the user by its email
+	result := db.Where("email = ?", data.Email).First(&user)
+
+	notFound := errors.Is(result.Error, gorm.ErrRecordNotFound)
+
+	if result.Error != nil && !notFound {
 		panic(result.Error)
 	}
 
-	//Compare User Password with request Password
+	if !notFound && bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data.Password)) == nil {
 
-	cmp := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data.Password))
-	fmt.Println(cmp)
+		accessToken, err := generateAccessToken(user)
 
-	//If User is not empty (is a true user)
+		if err != nil {
+			panic(err)
+		}
 
-	if user.DisplayName != "" {
+		refreshToken, err := generateRefreshToken(user)
+
+		if err != nil {
+			goyave.Logger.Fatal(err)
+		}
+
+		response.JSON(http.StatusOK, LoginResponseStruct{
+			User:         user,
+			AccessToken:  accessToken,
+			RefreshToken: refreshToken,
+		})
+
+		// Update the user in db
 		user.LastLoginAt = int(time.Now().Unix())
+		user.RefreshToken = refreshToken
 		db.Save(&user)
+
+		return
 	}
 
-	response.JSON(http.StatusOK, user)
+	response.JSON(http.StatusUnauthorized, map[string]string{"validationError": lang.Get(request.Lang, "auth.invalid-credentials")})
 }

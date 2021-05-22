@@ -27,5 +27,13 @@
         "maxIdleConnections": 20,
         "maxLifetime": 300,
         "autoMigrate": true
+    },
+    "auth": {
+        "jwt": {
+            "expiry": 900,
+            "secret": "jwt-secret",
+            "refreshExpiry": 86400,
+            "refreshSecret": "refresh-secret"
+        }
     }
 }

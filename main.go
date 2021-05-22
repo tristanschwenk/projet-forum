@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	_ "ezyo/forum/config"
 	"ezyo/forum/http/route"
 	_ "ezyo/forum/http/validation"
 

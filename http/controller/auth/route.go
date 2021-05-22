@@ -8,8 +8,8 @@ import (
 )
 
 func Register(rootRouter *goyave.Router) {
-	rooter := rootRouter.Subrouter("/auth")
+	router := rootRouter.Subrouter("/auth")
 
-	rooter.Post("/register", register.Register).Validate(register.RegisterRequest)
-	rooter.Post("/login", login.Login).Validate(login.LoginRequest)
+	router.Post("/register", register.Register).Validate(register.RegisterRequest)
+	router.Post("/login", login.Login).Validate(login.LoginRequest)
 }

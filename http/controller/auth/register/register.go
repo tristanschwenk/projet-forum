@@ -1,6 +1,8 @@
 package register
 
 import (
+	"errors"
+
 	"golang.org/x/crypto/bcrypt"
 
 	"net/http"
@@ -8,6 +10,7 @@ import (
 
 	"goyave.dev/goyave/v3"
 	"goyave.dev/goyave/v3/database"
+	"goyave.dev/goyave/v3/lang"
 
 	"ezyo/forum/database/model"
 )
@@ -45,6 +48,22 @@ func Register(response *goyave.Response, request *goyave.Request) {
 		panic(err)
 	}
 
+	existingUser := model.User{}
+	db := database.Conn()
+	result := db.Where("email = ? OR userName = ?", data.Email, data.UserName).First(&existingUser)
+	exist := errors.Is(result.Error, nil)
+
+	if exist {
+		var fieldName string
+		if data.Email == existingUser.Email {
+			fieldName = "email"
+		} else if data.UserName == existingUser.UserName {
+			fieldName = "username"
+		}
+		response.JSON(http.StatusUnauthorized, map[string]string{"validationError": lang.Get(request.Lang, "validation.rules.unique", ":field", fieldName)})
+		return
+	}
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
 		panic(err)
@@ -57,7 +76,6 @@ func Register(response *goyave.Response, request *goyave.Request) {
 		Password:     string(hashedPassword),
 		RegisteredAt: int(time.Now().Unix()),
 	}
-	db := database.Conn()
 
 	if result := db.Create(&user); result.Error != nil {
 		panic(result.Error)

@@ -5,16 +5,14 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"goyave.dev/goyave/v3"
-	goyaveAuth "goyave.dev/goyave/v3/auth"
-	"goyave.dev/goyave/v3/config"
 	"goyave.dev/goyave/v3/database"
 	"goyave.dev/goyave/v3/lang"
 
 	"ezyo/forum/database/model"
+	"ezyo/forum/http/controller/auth/helpers"
 )
 
 // Controllers are files containing a collection of Handlers related to a specific feature.
@@ -46,26 +44,6 @@ type LoginResponseStruct struct {
 	RefreshToken string `json:"refreshToken"`
 }
 
-func generateAccessToken(user model.User) (string, error) {
-	return goyaveAuth.GenerateTokenWithClaims(jwt.MapClaims{
-		"email": user.Email,
-		"id":    user.ID,
-	}, jwt.SigningMethodHS256)
-}
-
-func generateRefreshToken(user model.User) (string, error) {
-	refreshExpiry := time.Duration(config.GetInt("auth.jwt.refreshExpiry")) * time.Second
-	refreshSecret := []byte(config.GetString("auth.jwt.refreshSecret"))
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":  user.ID,
-		"nbf": time.Now().Unix(),
-		"exp": time.Now().Add(refreshExpiry).Unix(),
-	})
-
-	return token.SignedString(refreshSecret)
-}
-
 func Login(response *goyave.Response, request *goyave.Request) {
 
 	// Retreive body as a struct
@@ -90,13 +68,7 @@ func Login(response *goyave.Response, request *goyave.Request) {
 
 	if !notFound && bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data.Password)) == nil {
 
-		accessToken, err := generateAccessToken(user)
-
-		if err != nil {
-			goyave.Logger.Fatal(err)
-		}
-
-		refreshToken, err := generateRefreshToken(user)
+		tokens, err := helpers.GenerateTokens(user)
 
 		if err != nil {
 			goyave.Logger.Fatal(err)
@@ -104,13 +76,13 @@ func Login(response *goyave.Response, request *goyave.Request) {
 
 		response.JSON(http.StatusOK, LoginResponseStruct{
 			User:         user,
-			AccessToken:  accessToken,
-			RefreshToken: refreshToken,
+			AccessToken:  tokens.Access,
+			RefreshToken: tokens.Refresh,
 		})
 
 		// Update the user in db
 		user.LastLoginAt = int(time.Now().Unix())
-		user.RefreshToken = refreshToken
+		user.RefreshToken = tokens.Refresh
 		db.Save(&user)
 
 		return

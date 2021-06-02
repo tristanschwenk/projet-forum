@@ -17,7 +17,7 @@ func init() {
 }
 
 type User struct {
-	ID           int32  `gorm:"primary_key;AUTO_INCREMENT;column:id;type:integer;" json:"id"`
+	ID           int32  `gorm:"primary_key;AUTO_INCREMENT;column:id;type:integer;" json:"id" auth:"username"`
 	Email        string `gorm:"column:email;type:varchar;" json:"email"`
 	DisplayName  string `gorm:"column:displayName;type:varchar;" json:"displayName"`
 	UserName     string `gorm:"column:userName;type:varchar;size:30;" json:"userName"`

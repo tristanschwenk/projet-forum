@@ -1,0 +1,15 @@
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+*.out
+# config.json
+.env
+
+.idea/
+.vscode/
+app/package-lock.json
+database/dev.db
+.DS_Store

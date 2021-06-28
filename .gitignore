@@ -1,12 +1,4 @@
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
 
-*.out
-# config.json
-.env
-
-.idea/
-.vscode/
+app/package-lock.json
+.DS_Store
+api/package-lock.json

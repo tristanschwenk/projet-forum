@@ -21,7 +21,7 @@ type SubscribeResponseStruct struct {
 	IsUserSubscribed bool `json:"isUserSubscribed"`
 }
 
-func Subscribe(response *goyave.Response, request *goyave.Request) {
+func Toggle(response *goyave.Response, request *goyave.Request) {
 
 	data := SubscribeRequestStruct{}
 

@@ -22,7 +22,7 @@
                   <div v-for="notif in notifications" :key="notif.id">
                     <div class="row">
                       <div class="col-auto">
-                        <span class="avatar">ZS</span>
+                        <span class="avatar">EZ</span>
                       </div>
                       <div class="col">
                         <div class="text-truncate">

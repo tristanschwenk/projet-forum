@@ -5,6 +5,7 @@ import (
 	"ezyo/forum/http/controller/post/create"
 	"ezyo/forum/http/controller/post/delete"
 	"ezyo/forum/http/controller/post/one"
+	"ezyo/forum/http/controller/post/subscribe"
 
 	"goyave.dev/goyave/v3"
 )
@@ -13,6 +14,7 @@ func Register(rootRouter *goyave.Router) {
 	router := rootRouter.Subrouter("/post")
 
 	router.Post("/create", create.Create).Validate(create.CreateRequest)
+	router.Post("/subscribe", subscribe.Create)
 
 	router.Get("/{id:[0-9]+}", one.One)
 

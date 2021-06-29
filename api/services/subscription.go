@@ -21,6 +21,18 @@ func CreateSubscription(userID int, postID int) {
 	}
 }
 
+func RemoveSubscription(userID int, postID int) {
+	db := database.Conn()
+	subscription := model.Subscription{
+		UserID: userID,
+		PostID: postID,
+	}
+
+	if result := db.Delete(&subscription); result.Error != nil {
+		panic(result.Error)
+	}
+}
+
 func IsUserSubscribed(userID int, postID int) bool {
 	db := database.Conn()
 	subscription := model.Subscription{
@@ -50,4 +62,14 @@ func FetchUserSubscribed(postID int) []model.User {
 	}
 
 	return users
+}
+
+func ToggleSubscription(userID int, postID int) bool {
+	if IsUserSubscribed(userID, postID) {
+		RemoveSubscription(userID, postID)
+		return false
+	} else {
+		CreateSubscription(userID, postID)
+		return true
+	}
 }

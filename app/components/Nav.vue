@@ -91,14 +91,13 @@
   } from 'vuex'
 
   export default {
-    async asyncData({params, $axios}) {
-      const notifications = await $axios.$get(`/api/notification/?`);
+    data() {
       return {
-        notifications
+        notifications: []
       }
     },
-    mounted() {
-      console.log(this.notifications);
+    async fetch() {
+      this.notifications = await this.$axios.$get(`/api/notification`);
     },
     computed: {
       ...mapGetters(['isAuthenticated', 'loggedInUser']),
@@ -109,6 +108,7 @@
         }
       },
       getInitials() {
+        if (!this.loggedInUser.displayName) return ''
         let temp = this.loggedInUser.displayName.split(' ')
 
         if (temp.length == 0) return ''

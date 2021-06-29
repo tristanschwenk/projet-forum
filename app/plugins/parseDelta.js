@@ -11,7 +11,6 @@ export default (_, inject) => {
       try {
         delta = JSON.parse(delta);
       } catch (error) {
-        console.log('[parseDelta]', delta, error);
         return delta;
       }
     }
@@ -21,7 +20,6 @@ export default (_, inject) => {
     }
 
     var converter = new QuillDeltaToHtmlConverter(delta, cfg);
-    console.log('\t', converter.convert());
     return converter.convert();
   })
 }

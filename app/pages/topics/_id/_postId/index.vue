@@ -92,10 +92,6 @@
       this.post = await this.$axios.$get(`/api/post/${this.$route.params.postId}`);
       this.replies = await this.$axios.$get(`/api/replies/${this.$route.params.postId}`);
     },
-
-    mounted() {
-      console.log("-->",this.replies);
-    },
     computed: {
       creationTime() {
         return this.$relativeTime(this.post.createdAt * 1000)

@@ -12,10 +12,10 @@ func All(response *goyave.Response, request *goyave.Request) {
 
 	db := database.Conn()
 
-	toFind := []model.Notification{}
+	notifications := []model.Notification{}
 
-	if result := db.Find(&toFind, "userId = ?", request.User.(*model.User).ID); result.Error != nil {
+	if result := db.Find(&notifications, "userId = ?", request.User.(*model.User).ID); result.Error != nil {
 		panic(result.Error)
 	}
-	response.JSON(http.StatusOK, toFind)
+	response.JSON(http.StatusOK, notifications)
 }

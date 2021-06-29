@@ -19,5 +19,4 @@ func Register(rootRouter *goyave.Router) {
 	router.Post("/passwordrequest", passwordRequest.PasswordRequest).Validate(passwordRequest.PasswordRequestRequest)
 	router.Post("/passwordreset", passwordRequest.PasswordReset).Validate((passwordRequest.PasswordResetRequest))
 	router.Post("/github", github.Register)
-
 }

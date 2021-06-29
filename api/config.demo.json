@@ -1,0 +1,50 @@
+{
+    "app": {
+        "name": "forum-api",
+        "environment": "localhost",
+        "debug": true,
+        "defaultLanguage": "en-US"
+    },
+    "server": {
+        "host": "127.0.0.1",
+        "maintenance": false,
+        "protocol": "http",
+        "domain": "",
+        "port": 8080,
+        "httpsPort": 8081,
+        "timeout": 10,
+        "maxUploadSize": 10,
+        "tls": {
+            "cert": "",
+            "key": ""
+        }
+    },
+    "database": {
+        "connection": "sqlite3",
+        "name": "database/demo.db",
+        "options": "disableForeignKeyConstraintWhenMigrating=true",
+        "maxOpenConnections": 20,
+        "maxIdleConnections": 20,
+        "maxLifetime": 300,
+        "autoMigrate": true,
+        "disableForeignKeyConstraintWhenMigrating": true,
+        "config": {
+            "disableForeignKeyConstraintWhenMigrating": true
+        }
+    },
+    "auth": {
+        "jwt": {
+            "expiry": 900,
+            "secret": "${ACCESS_TOKEN_SECRET}",
+            "refreshExpiry": 86400,
+            "refreshSecret": "${REFRESH_TOKEN_SECRET}"
+        }
+    },
+    "mail": {
+        "host": "mail.gandi.net",
+        "port": 587,
+        "fromEmail": "noreply@ezyostudio.com",
+        "username": "${SMTP_USERNAME}",
+        "password": "${SMTP_PASSWORD}"
+    }
+}

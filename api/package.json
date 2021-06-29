@@ -5,6 +5,8 @@
   "scripts": {
     "start": "godotenv -f \"./.env\" go run main.go",
     "watch": "npm run dev",
-    "dev": "nodemon --exec \"npm run start\" -e \"go\" --signal SIGTERM"
+    "dev": "nodemon --exec \"npm run start\" -e \"go\" --signal SIGTERM",
+    "demo": "GOYAVE_ENV=demo npm run start"
+
   }
 }

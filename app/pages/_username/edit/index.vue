@@ -5,8 +5,9 @@
         <div class="col-md-6 col-lg-3">
           <div class="card">
             <div class="card-body p-4 text-center">
-              <span class="avatar avatar-xl mb-3 avatar-rounded">{{$getInitials(user.displayName)}}</span>
-              <h3 class="m-0 mb-1">{{ user.displayName }}</h3>
+              <span class="avatar avatar-xl mb-3 avatar-rounded" :style="{backgroundImage: `url(${user.avatar})`}">
+                {{(!user.avatar)?$getInitials(user.displayName):''}}
+              </span>              <h3 class="m-0 mb-1">{{ user.displayName }}</h3>
               <div class="text-muted">@{{ user.userName }}</div>
             </div>
           </div>

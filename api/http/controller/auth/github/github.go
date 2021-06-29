@@ -47,6 +47,7 @@ func Register(response *goyave.Response, request *goyave.Request) {
 			DisplayName:  data.Name,
 			UserName:     data.Login,
 			Email:        data.Email,
+			Avatar:       data.Avatar_url,
 			RegisteredAt: int(time.Now().Unix()),
 		}
 
@@ -69,6 +70,8 @@ func Register(response *goyave.Response, request *goyave.Request) {
 	if err != nil {
 		goyave.Logger.Fatal(err)
 	}
+
+	user.Avatar = data.Avatar_url
 
 	response.JSON(http.StatusOK, GithubResponseStruct{
 		User:         user,

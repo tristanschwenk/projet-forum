@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"ezyo/forum/http/controller/auth/github"
 	"ezyo/forum/http/controller/auth/login"
 	"ezyo/forum/http/controller/auth/passwordRequest"
 	"ezyo/forum/http/controller/auth/refresh"
@@ -17,5 +18,6 @@ func Register(rootRouter *goyave.Router) {
 	router.Post("/refresh", refresh.Refresh).Validate(refresh.RefreshRequest)
 	router.Post("/passwordrequest", passwordRequest.PasswordRequest).Validate(passwordRequest.PasswordRequestRequest)
 	router.Post("/passwordreset", passwordRequest.PasswordReset).Validate((passwordRequest.PasswordResetRequest))
+	router.Post("/github", github.Register)
 
 }

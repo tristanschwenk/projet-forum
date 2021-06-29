@@ -114,7 +114,6 @@
         if (temp.length == 0) return ''
         if (temp.length == 1) return temp[0].slice(0,2).toUpperCase()
         return (temp[0].slice(0,1)+temp[1].slice(0,1)).toUpperCase()
-        
       }
     },
     methods: {

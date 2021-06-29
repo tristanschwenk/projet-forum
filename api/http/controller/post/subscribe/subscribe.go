@@ -13,7 +13,7 @@ import (
 )
 
 type SubscribeRequestStruct struct {
-	ID int
+	Id int
 }
 
 type SubscribeResponseStruct struct {
@@ -35,7 +35,7 @@ func Toggle(response *goyave.Response, request *goyave.Request) {
 
 	post := model.Post{}
 
-	result := db.First(&post, data.ID)
+	result := db.First(&post, int(data.Id))
 
 	notFound := errors.Is(result.Error, gorm.ErrRecordNotFound)
 
@@ -47,6 +47,4 @@ func Toggle(response *goyave.Response, request *goyave.Request) {
 		Post:             post,
 		IsUserSubscribed: services.ToggleSubscription(int(user.ID), int(post.ID)),
 	})
-
-	response.JSON(http.StatusOK, post)
 }

@@ -14,7 +14,7 @@ func Register(rootRouter *goyave.Router) {
 	router := rootRouter.Subrouter("/post")
 
 	router.Post("/create", create.Create).Validate(create.CreateRequest)
-	router.Post("/subscribe", subscribe.Create)
+	router.Post("/subscribe", subscribe.Toggle).Validate(subscribe.ToggleRequest)
 
 	router.Get("/{id:[0-9]+}", one.One)
 

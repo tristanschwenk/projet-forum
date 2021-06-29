@@ -31,6 +31,7 @@ export default {
     { src: '@/node_modules/@tabler/core/dist/js/tabler.js', mode: 'client' },
     '~/plugins/relativeTime.js',
     '~/plugins/parseDelta.js',
+    '~/plugins/getInitials.js',
     {src: '~/plugins/quill.js', mode: 'client'},
   ],
 

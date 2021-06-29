@@ -15,12 +15,12 @@
           </div>
           <div class="col-auto">
             <div class="btn-list">
-              <a href="#" class="btn btn-white d-none d-md-inline-flex">
+              <a @click="toggleSubscribe" href="#" class="btn btn-white d-none d-md-inline-flex">
                 <template v-if="post.isUserSubscribed">
-                  Unsubscribe
+                  <icon-bell-off /> Unsubscribe
                 </template>
                 <template v-else>
-                  Subscribe
+                  <icon-bell />Subscribe
                 </template>
               </a>
             </div>
@@ -30,13 +30,11 @@
     </div>
     <div class="page-body">
       <div class="container-lg">
-        <Post :post="post" :footer=true :title=false :short=false :like="true"></Post>
+        <Post :post="post" :footer=false :title=false :short=false :like="true"></Post>
         <div class="pt-3 pb-3">
           <div class="card container-lg mt-3 p-0">
             <Editor :postID="this.post.id" :isReply="true" v-model="editor"/>
                 <div class="p-3"><button class="btn btn-outline-light text-dark float-end cl-auto" @click.prevent="create">Reply</button></div>
-                
-                          
           </div>
 
         </div>
@@ -125,6 +123,11 @@
           this.$emit('error', e);
           return false;
         }
+      },
+      async toggleSubscribe() {        
+        const {id} = this.post;
+
+        this.post = await this.$axios.$post(`/api/post/subscribe`, {id});
       }
     }
   }

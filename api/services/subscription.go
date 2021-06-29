@@ -23,32 +23,19 @@ func CreateSubscription(userID int, postID int) {
 
 func RemoveSubscription(userID int, postID int) {
 	db := database.Conn()
-	subscription := model.Subscription{
-		UserID: userID,
-		PostID: postID,
-	}
 
-	if result := db.Delete(&subscription); result.Error != nil {
+	if result := db.Where("userId = ? AND postId = ?", userID, postID).Delete(model.Subscription{}); result.Error != nil {
 		panic(result.Error)
 	}
 }
 
 func IsUserSubscribed(userID int, postID int) bool {
 	db := database.Conn()
-	subscription := model.Subscription{
-		UserID: userID,
-		PostID: postID,
-	}
 
 	var count int64
 
-	db.Find(&subscription).Count(&count)
-
-	if count == 1 {
-		return true
-	}
-
-	return false
+	db.Model(&model.Subscription{}).Where("userId = ? AND postId = ?", userID, postID).Count(&count)
+	return count >= 1
 }
 
 func FetchUserSubscribed(postID int) []model.User {

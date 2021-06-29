@@ -29,11 +29,6 @@
                 <!-- SVG icon code -->
                 New
               </a>
-              <a href="#" class="btn btn-white d-none d-md-inline-flex">
-                <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
-                <!-- SVG icon code -->
-                Subscribe
-              </a>
             </div>
           </div>
         </div>
@@ -86,7 +81,6 @@
     },
     beforeMounted() {
       window.vueInstance = this;
-      console.log("->>>>", this.posts);
     },
     computed: {
       creationTime() {
